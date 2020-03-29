@@ -1,0 +1,293 @@
+package pathcontroller;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathplanner.pair;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Errorcorrection{
+
+	packetsender send;
+	position_parser activation;
+	
+	int x2,x3,y2,y3,x1,y1;
+	int info;
+	double present_angle;
+	double steering;
+	double orientation_angle;
+	pair dest;
+	pair source;
+	NSsteeringanglecalculator anglens;
+    SNsteeringanglecalculator anglesn;
+	EWsteeringanglecalculator angleew;
+	WEsteeringanglecalculator anglewe;
+	Intersectionsteer anglei;
+	Orientationfinder O;
+	double diff;
+	position_parser parser;
+    double pos[]=new double[6];
+	
+
+	byte[] data;
+	
+	
+	Actuator act;
+	Errorcorrection(pair exp, pair actual) throws IOException, InterruptedException
+	{
+		
+   	 if (actual.x>exp.x)
+	 {
+   		 
+   		   diff= actual.x-exp.x;
+   	       System.out.println("the diff is "+diff);
+		
+			O=new Orientationfinder();
+			orientation_angle=O.Orientationfinder();
+			info=O.Orientationinfo();
+			
+			System.out.println(info);
+			
+		
+			if (info==3)
+			{
+				
+				//NS //go startight
+				act= new Actuator(0,(int)diff-1);
+				
+			}
+			if (info==4)
+			{
+				
+				//SN //go reverse
+				act=new Actuator(0,(int)diff-1);
+			}
+			if (info==1)
+			{
+				//EW//add steering error right by diff
+				diff=Math.round(diff * 10) / 10.0;
+				System.out.println("the rounded diff is"+diff);
+				 data = ("diff,0.1").getBytes();
+			        
+				  send= new packetsender(data);
+				 TimeUnit.SECONDS.sleep(diff);
+				 data=("0,0").getBytes();
+				 send= new packetsender(data);
+			}
+			
+			if (info==2)
+			{
+				//steer left must be added by the difference  
+				
+				//WE
+				diff=Math.round(diff * 10) / 10.0;
+				act=new Actuator(-diff,(int)diff-1);
+			}
+			if (info==5)
+			         
+			{
+				 byte[] data = ("0,0").getBytes();
+				 position_parser parser=new position_parser();
+			     pos=parser.position_parser(data);
+			 
+			  if (pos[5]<pos[1])//y3<y1
+			  {
+				  //ew
+			  }
+			  if (pos[1]>pos[5])//y3>y1
+			  {
+				  //we
+			  }
+			}
+	    }
+			
+			 if (exp.x>actual.x)
+			 {
+		   		 
+		   		   diff= exp.x-actual.x;
+		   	       System.out.println("the diff is "+diff);
+				
+					O=new Orientationfinder();
+					orientation_angle=O.Orientationfinder();
+					info=O.Orientationinfo();
+					
+					System.out.println(info);
+					
+				
+					if (info==3)
+					{
+						
+						//NS //go rev
+						act= new Actuator(0,(int)diff-1);
+						
+					}
+					if (info==4)
+					{
+						
+						//SN //go straight
+						act=new Actuator(0,2);
+					}
+					if (info==1)
+					{
+						//EW//add steering error left by diff
+						diff=Math.round(diff * 10) / 10.0;
+						act=new Actuator(-diff,(int)diff-1);
+						
+					}
+					
+					if (info==2)
+					{
+						//steer right must be added by the difference  
+						
+						//WE
+						diff=Math.round(diff * 10) / 10.0;
+						act=new Actuator(diff,(int)diff-1);
+					}
+					if (info==5)
+					         
+					{
+						 byte[] data = ("0,0").getBytes();
+						 position_parser parser=new position_parser();
+					     pos=parser.position_parser(data);
+					 
+					  if (pos[5]<pos[1])//y3<y1
+					  {
+						  //ew
+					  }
+					  if (pos[1]>pos[5])//y3>y1
+					  {
+						  //we
+					  }
+					}
+	             }
+			 
+			 
+			 if (actual.y>exp.y)
+			 {
+		   		 
+		   		   diff= actual.y-exp.y;
+		   	       System.out.println("the diff is "+diff);
+				
+					O=new Orientationfinder();
+					orientation_angle=O.Orientationfinder();
+					info=O.Orientationinfo();
+					
+					System.out.println(info);
+					
+				
+					if (info==3)
+					{
+						//NS steer left a bit	
+                       diff=Math.round(diff * 10) / 10.0;
+					   act=new Actuator(-diff,(int)diff-1);
+					}
+					if (info==4)
+					{
+						//SN steer right a bit
+						diff=Math.round(diff * 10) / 10.0;
+						act=new Actuator(diff,(int)diff-1);	
+					}
+					if (info==1)
+					{
+						//EW push reverse a bit
+						act=new Actuator(0,(int)diff-1);
+					}
+					
+					if (info==2)
+					{
+						//WE push front a bit i.e., go staright
+						act= new Actuator(0,(int)diff-1);	
+				     }
+					if (info==5)
+					         
+					{
+						 byte[] data = ("0,0").getBytes();
+						 position_parser parser=new position_parser();
+					     pos=parser.position_parser(data);
+					 
+					  if (pos[5]<pos[1])//y3<y1
+					  {
+						  //ew
+					  }
+					  if (pos[1]>pos[5])//y3>y1
+					  {
+						  //we
+					  }
+					}
+			    }
+					
+			 
+			 
+			 
+			 
+			 if (exp.y>actual.y)
+			 {
+		   		 
+		   		   diff= exp.y-actual.y;
+		   	       System.out.println("the diff is "+diff);
+				
+					O=new Orientationfinder();
+					orientation_angle=O.Orientationfinder();
+					info=O.Orientationinfo();
+					
+					System.out.println(info);
+					
+				
+					if (info==3)
+					{
+						//NS steer right a bit	
+                       diff=Math.round(diff * 10) / 10.0;
+					   act=new Actuator(diff,(int)diff-1);
+					}
+					if (info==4)
+					{
+						//SN steer left a bit
+						diff=Math.round(diff * 10) / 10.0;
+						act=new Actuator(-diff,(int)diff-1);	
+					}
+					if (info==1)
+					{
+						//EW push staright
+						act=new Actuator(0,(int)diff-1);
+					}
+					
+					if (info==2)
+					{
+						//WE push reverse
+						act= new Actuator(0,(int)diff-1);	
+				     }
+					if (info==5)
+					         
+					{
+						 byte[] data = ("0,0").getBytes();
+						 position_parser parser=new position_parser();
+					     pos=parser.position_parser(data);
+					 
+					  if (pos[5]<pos[1])//y3<y1
+					  {
+						  //ew
+					  }
+					  if (pos[1]>pos[5])//y3>y1
+					  {
+						  //we
+					  }
+					}
+			    }
+					
+					
+	}
+}		
+				
+				
+			
+			
+			
+				
+				
+			  
+			
+				
+			
+   
+

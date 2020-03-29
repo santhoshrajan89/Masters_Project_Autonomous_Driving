@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ThirdWP.java&apos; to &apos;Launcher/src/launcher&apos;&#x0D;&#x0A;- Original project: &apos;Launcher&apos;&#x0D;&#x0A;- Destination element: &apos;Launcher/src/launcher&apos;&#x0D;&#x0A;- Original element: &apos;launcher.ThirdWP.java&apos;" description="Copy compilation unit" destination="/src&lt;launcher" element1="/src&lt;launcher{ThirdWP.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1570601948123" units="1" version="1.0"/>
+</session>

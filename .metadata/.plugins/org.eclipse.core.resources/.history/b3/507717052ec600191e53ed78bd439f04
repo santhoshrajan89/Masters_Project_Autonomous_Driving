@@ -1,0 +1,57 @@
+package udp_recieve;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+
+	static BundleContext getContext() {
+		return context;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		
+		 int port=54321;
+		  
+		  byte[] reciever = new byte[2048];
+		  DatagramSocket ds= new DatagramSocket(port);
+		  
+		 DatagramPacket rec = new DatagramPacket(reciever, reciever.length);
+		 
+		 
+		 while (true) {
+			 ds.receive(rec);
+			 
+			 String message= new String(reciever, 0, rec.getLength());
+			 System.out.println(rec.getAddress().getHostName() + ": "+ message);
+
+		        // Reset the length of the packet before reusing it.
+		       // packet.setLength(reciever.length);
+		       ds.close();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

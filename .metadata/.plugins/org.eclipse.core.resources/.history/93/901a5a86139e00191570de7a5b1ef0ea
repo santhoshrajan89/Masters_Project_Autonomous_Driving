@@ -1,0 +1,22 @@
+package pathplanner;
+
+
+public class list {
+ 
+final int x ;
+final int y ;
+final double g;
+final double h;
+final double f;
+
+  list(int x, int y, double g, double h, double f)
+   {
+	 this.x=x;
+	 this.y=y;
+	 this.g=g;
+	 this.h=h;
+	 this.f=f;
+	 
+	 
+    }
+ }

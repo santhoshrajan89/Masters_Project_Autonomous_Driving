@@ -1,0 +1,260 @@
+package reverse;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathplanner.pair;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+import java.lang.Math;
+public class Reverse_actuator {
+
+	int i=0;
+	int index;
+	int x2,x3,y2,y3;
+	double[] info=new double[2];
+	packetsender send;
+	position_parser activation;
+	int[] pos;
+	byte[] data;
+	int x=5;
+	
+	 public Reverse_actuator( double steering, int time) throws IOException, InterruptedException
+	{
+		
+		 if (steering==0)
+		 {
+			 if (i==0)
+			 {
+				 data = ("0.1,-0.15").getBytes();
+			        
+				  send= new packetsender(data);
+				 TimeUnit.SECONDS.sleep(time);
+				 data=("0,0").getBytes();
+				 send= new packetsender(data);
+				 i++;
+			 }
+			 if (i>0)
+			 {
+				 data = ("0.1,-0.15").getBytes();
+			        
+				  send= new packetsender(data);
+				 TimeUnit.SECONDS.sleep(time);
+				 data=("0,0").getBytes();
+				 send= new packetsender(data);
+				 i++;
+			 }
+		
+		 }
+		 if (steering==0.1)
+			 
+		 {
+			 data = ("0.1,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+		 if (steering==0.2)
+		 {
+			 data = ("0.2,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+		 if (steering==0.3)
+		 {
+		 data = ("0.3,0.1").getBytes();
+	        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==0.4)
+			 
+		 {
+			 data = ("0.4,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        //0.5 and above-> we need more time to achieve the desired point
+        if (steering==0.5)
+			 
+		 {
+			 data = ("0.5,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==0.6)
+			 
+		 {
+			 data = ("0.6,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==0.7)
+			 
+		 {
+			 data = ("0.7,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==0.8)
+			 
+		 {
+			 data = ("0.8,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==0.9)
+			 
+		 {
+			 data = ("0.9,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        if (steering==1)
+			 
+		 {
+			 data = ("1.0,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+        
+        
+        
+        
+       
+		 if (steering==-0.1)
+			 
+		 {
+			 data = ("-0.1,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+		 if (steering==-0.2)
+		 {
+			 data = ("-0.2,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+		 if (steering==-0.3)
+		 {
+		 data = ("-0.3,0.1").getBytes();
+	        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-0.4)
+			 
+		 {
+			 data = ("-0.4,0.1").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       //0.5 and above more velcoity
+       if (steering==-0.5)
+			 
+		 {
+			 data = ("-0.45,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-0.6)
+			 
+		 {
+			 data = ("-0.6,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-0.7)
+			 
+		 {
+			 data = ("-0.7,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-0.8)
+			 
+		 {
+			 data = ("-0.8,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-0.9)
+			 
+		 {
+			 data = ("-0.9,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+       if (steering==-1)
+			 
+		 {
+			 data = ("-1,0.2").getBytes();
+		        
+			  send= new packetsender(data);
+			 TimeUnit.SECONDS.sleep(time+1);
+			 data=("0,0").getBytes();
+			 send= new packetsender(data);
+		 }
+	}
+}
+			
+			
+			
+	
+	
+

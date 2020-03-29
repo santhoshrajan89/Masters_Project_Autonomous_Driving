@@ -1,0 +1,16 @@
+package pathplanner;
+
+public class pair {
+ 
+final int x ;
+final int y ;
+
+ public pair(x first, y second)
+ {
+	 super();
+	 this.first=first;
+	 this.second=second;
+	 
+ }
+ 
+}

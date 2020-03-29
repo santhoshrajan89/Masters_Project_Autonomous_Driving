@@ -1,0 +1,54 @@
+package reverse;
+
+import java.io.IOException;
+
+import pathcontroller.WEsteeringanglecalculator;
+import pathplanner.Path;
+import pathplanner.pair;
+
+public class reverse_controller {
+
+	reverse_gear gear;
+	
+	public reverse_controller(Path ret, int index) 
+	
+	{
+		
+	 //for every point the closed list we make a movement for it to be as accurate as poosible
+		
+		gear=new reverse_gear();
+	     
+		
+		dest=new pair(ret.x[i+5].x,ret.x[i+5].y );
+		source=new pair(ret.x[i].x,ret.x[i].y );
+		
+		
+		// data=("0.9,0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+		
+	    //data=("0,0").getBytes();
+		//data=("-0.1,0").getBytes();
+		//send=new packetsender(data);
+		
+//		TimeUnit.SECONDS.sleep(1);
+		//data=("0,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(7);
+	   //data=("0.1,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+	// data=("0.05,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+	  // data=("0,0").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(1);
+		
+	}
+}

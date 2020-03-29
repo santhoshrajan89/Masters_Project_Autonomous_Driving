@@ -1,0 +1,76 @@
+package reverse;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathcontroller.Actuator;
+
+import pathplanner.Path;
+import pathplanner.pair;
+
+public class reverse_controller {
+
+	reverse_gear gear;
+	pair dest;
+	pair source;
+	double steering;
+	Reverse_actuator act;
+	public reverse_controller(Path ret, int index) throws IOException, InterruptedException 
+	
+	{
+		
+	 //for every point the closed list we make a movement for it to be as accurate as poosible
+		
+		
+		for (int i=0; i<index-1;i=i+1)
+		{
+			
+			if (ret.x[i+1]==null||ret.x[i]==null)
+			{
+				break;
+			}
+			dest=new pair(ret.x[i+1].x,ret.x[i+1].y );
+			source=new pair(ret.x[i].x,ret.x[i].y );
+			gear=new reverse_gear();
+			steering=gear.reverse_gear(dest, source);
+			
+			act= new Reverse_actuator(steering, 500);
+			 TimeUnit.SECONDS.sleep(1);
+			
+			
+			
+		}
+		
+		//between every wp 3 to 5 seconds time gap and b.w every point taken in closed list 1 second gap
+		
+		
+		
+		// data=("0.9,0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+		
+	    //data=("0,0").getBytes();
+		//data=("-0.1,0").getBytes();
+		//send=new packetsender(data);
+		
+//		TimeUnit.SECONDS.sleep(1);
+		//data=("0,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(7);
+	   //data=("0.1,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+	// data=("0.05,-0.1").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(3);
+	  // data=("0,0").getBytes();
+		
+		//send=new packetsender(data);
+		//TimeUnit.SECONDS.sleep(1);
+		
+	}
+}

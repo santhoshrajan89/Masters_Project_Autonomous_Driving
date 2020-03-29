@@ -1,0 +1,7 @@
+package pathplanner;
+
+public class<int,int> pair {
+ 
+private int x;
+private int y;
+}

@@ -1,0 +1,87 @@
+package pathplanner;
+
+import java.io.IOException;
+
+public class Invoker {
+	int index;
+	int x2,y2,x3,y3;
+	position_retriever activation;
+	int[] position;
+	String message;
+	public controlNS control_ns;
+	public controlSN control_sn;
+	public controlEW control_ew;
+	public controlWE control_we;
+	Path ret;
+	
+	Invoker(Path ret, int index) throws IOException, InterruptedException{
+		this.ret=ret;
+		this.index=index;
+	
+	
+	
+    for (int c=0; c<index; c=c+3)
+    {
+  		
+		activation=new position_retriever();
+		position=activation.position_retriever();
+		x2=position[0];
+		y2=position[1];
+		x3=position[2];
+		y3=position[3];
+		System.out.println();
+		System.out.println("the current position of x3,y3 is");
+		System.out.println(x3);
+	    System.out.println(y3);
+		
+		System.out.println("the current position of x2,y2 is");
+		System.out.println(x2);
+		System.out.println(y2);
+		System.out.println();
+		//System.out.println("the current index is");
+		//System.out.println(c);
+	     if (x2-x3<=2||x2-x3<=-2)
+	     {
+	    	 if (y2>y3)
+	    	 {
+	    		 System.out.print(c+"EW invloked");
+	  			 control_ew=new controlEW (ret.x[c+2].x,ret.x[c+2].y,ret.x[c].x, ret.x[c].y);
+	  			
+	  		 
+	    	 }
+	     	
+	    	 if (y2<y3)
+	    	 {
+	    		
+	    		 System.out.print(c+"We invloked");
+		  			 control_we=new controlWE(ret.x[c+2].x,ret.x[c+2].y,ret.x[c].x, ret.x[c].y);
+		  			
+		  		 
+	    	 }
+	     	
+	     }
+	     
+	     if (x2-x3>2)
+	     {
+	    	
+	    	 System.out.print(c+"NS invloked");
+			 control_ns=new controlNS(ret.x[c+2].x,ret.x[c+2].y,ret.x[c].x, ret.x[c].y);
+			
+		 
+	     }
+	     
+	     
+	     if (x3-x2>2)
+	     {
+	    	
+	    	 System.out.print(c+" SN invloked");
+			 control_sn=new controlSN(ret.x[c+2].x,ret.x[c+2].y,ret.x[c].x, ret.x[c].y);
+			
+		 
+	     }
+	    
+	  
+	     
+    }
+	}
+}

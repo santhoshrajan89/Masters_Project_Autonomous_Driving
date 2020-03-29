@@ -1,0 +1,4 @@
+AttributeMetadataManager=<?xml version\="1.0" encoding\="UTF-8"?><state/>\r\n
+eclipse.preferences.version=1
+server_model=<?xml version\="1.0" encoding\="UTF-8"?><server_model>\r\n    <server>\r\n        <uid>af14ef65-8ea0-4040-8721-e714fa767291</uid>\r\n        <jmx_service_url>service\:jmx\:rmi\:///jndi/rmi\://192.168.1.118\:22/jmxrmi</jmx_service_url>\r\n        <server_name>192.168.1.118\:22</server_name>\r\n        <server_path/>\r\n    </server>\r\n</server_model>\r\n
+triggers_model=<?xml version\="1.0" encoding\="UTF-8"?><triggers>\r\n    <notification_rules/>\r\n</triggers>\r\n

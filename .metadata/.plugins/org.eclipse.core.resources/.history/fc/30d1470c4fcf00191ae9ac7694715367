@@ -1,0 +1,152 @@
+package pathplanner;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+//import service_tracker.Activator;
+
+import org.eclipse.osgi.framework.util.*;
+import org.osgi.framework.ServiceFactory;
+
+
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+	BundleContext bundleContext;
+	public Astar astar;
+	public Path retns, retsn, retew, retwe;
+	int index;
+	public controlNS control_ns;
+	public controlSN control_sn;
+	public controlEW control_ew;
+	public controlWE control_we;
+	
+	String message;
+	runner send;
+	public ServiceRegistration<Astar_int> a;
+	static BundleContext getContext() {
+		return context;
+	}
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		  byte[] data = ("0,0").getBytes();
+		  send= new runner(data);
+		  message=send.recieve();  
+		//  System.out.print("This is the message");
+			//System.out.println(message);
+			
+		  String x2p = new String(message.substring(31, 34) );
+		  String y2p = new String(message.substring(47,50) );
+			
+		  String x3p = new String(message.substring(55, 58) );
+		  String y3p= new String(message.substring(71,73) );
+			    
+		    
+		   int x2= (int) (25+Double.parseDouble(x2p));
+		    int  y2= (int) (25-Double.parseDouble(y2p));
+		    
+		    int x3= (int) (25+Double.parseDouble(x3p));
+		    int  y3= (int) (25-Double.parseDouble(y3p));
+		    
+			System.out.println(x2);
+		    System.out.println(y2);
+		    System.out.println(x3);
+		    System.out.println(y3);
+		   
+	    
+	     if (x2-x3<=2||x2-x3<=-2)
+	     {
+	    	 if (y2<y3)
+	    	 {
+	    		 astar=new Astar(x3,y3,17,35);
+	  		    
+	  		    retew=astar.retval();
+	  			index=astar.indret();
+	  			
+	  			
+	  			 control_ew=new controlEW (retew, index);
+	  			
+	  		    //control_activation.actuator();
+	  		   message= control_ew.controlEW();
+	  		   System.out.print("This is the message");
+	  			System.out.println(message);
+	    	 }
+	     	
+	    	 if (y2<y3)
+	    	 {
+	    		 astar=new Astar(x3,y3,17,35);
+		  		    
+		  		    retwe=astar.retval();
+		  			index=astar.indret();
+		  			
+		  			
+		  			 control_ew=new controlEW (retwe, index);
+		  			
+		  		    //control_activation.actuator();
+		  		   message= control_ew.controlEW();
+		  		   System.out.print("This is the message");
+		  			System.out.println(message);
+	    	 }
+	     	
+	     }
+	     
+	     if (x2-x3>2)
+	     {
+	    	 astar=new Astar(x3,y3,17,35);
+ 		    
+ 		    retns=astar.retval();
+ 			index=astar.indret();
+ 			System.out.print("the index value is");
+ 			System.out.print(index);
+ 			 control_ns=new controlNS (retns, index);
+ 			
+ 		    //control_activation.actuator();
+ 		   message= control_ns.controlNS();
+ 		   System.out.print("This is the message");
+ 			System.out.println(message);
+	     }
+	     
+	     
+	     if (x2-x3<2)
+	     {
+	    	 astar=new Astar(x3,y3,17,35);
+ 		    
+ 		    retsn=astar.retval();
+ 			index=astar.indret();
+ 			
+ 			
+ 			 control_sn=new controlSN (retsn, index);
+ 			
+ 		    //control_activation.actuator();
+ 		   message= control_sn.controlSN();
+ 		   System.out.print("This is the message");
+ 			System.out.println(message);
+	     }
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	  }
+	 		 
+	 		  
+		
+	
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+		a.unregister();
+		System.out.println("Hello World!!");
+	}
+
+}
+
+

@@ -1,0 +1,42 @@
+package reverse;
+
+import java.util.concurrent.TimeUnit;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	double orient;
+	packetsender send;
+	static BundleContext getContext() {
+		return context;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		
+		
+	
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

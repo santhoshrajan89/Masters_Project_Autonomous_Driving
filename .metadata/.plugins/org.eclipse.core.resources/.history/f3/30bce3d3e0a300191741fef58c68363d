@@ -1,0 +1,36 @@
+package pathplanner;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+
+	static BundleContext getContext() {
+		return context;
+	}
+	private Astar astar;
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		astar=new Astar();
+		astar.computecost();
+		System.out.println("This is Astar");
+		astar.loop();
+		astar.printpath();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+		System.out.println("Goodbye World!!");
+	}
+
+}

@@ -1,0 +1,73 @@
+package reverse;
+
+import pathplanner.pair;
+
+public class reverse_gear{
+
+	
+	double steering;
+	
+	double reverse_gear(pair dest, pair sourceS)
+	{
+		
+		
+		
+			System.out.println("the orientation angle given here is"+orientation_angle);
+			//also give the angle between source and destination given by the formula
+			//tan inv y2-y1/x2-x1
+			//the angle is with respect to y axis as the orietnation of the vehicle is ns
+			
+			steering=Math.toDegrees(Math.atan((double)(dest.x-source.x)/(double)(dest.y-source.y)));
+			
+			//System.out.println(steering);
+			//steering=Math.atan((double)dest.x-source.x/dest.y-source.y);
+			System.out.println("the steering angle in degrees is"+steering);
+			//System.out.println("the atan value is"+Math.atan(0.4));
+			
+			//converting the steering angle to the simulator requirement
+			
+			// we arrive at + steering/45 as it is right turn 
+			
+			//the orientation of the truck semi system is already at 45 deg , so we add it to the calculation
+		
+			if (java.lang.Math.abs(steering)==90)
+			{
+				//go straight
+				steering=0;
+				
+			}
+			else if (java.lang.Math.abs(steering)==-0)
+			{
+				steering=0.8;
+			}
+			else if (java.lang.Math.abs(steering)==0)
+			{
+				steering=0.8;
+			}
+			else if (java.lang.Math.abs(steering)<=45)
+			{
+				//greater than angle for ew orientaion means we turn left
+				steering=-(steering)/(45);
+			}
+			else if (java.lang.Math.abs(steering)>45)
+			{
+				
+				//if negative
+				
+				steering=-(90-steering)/(90);
+			}
+			else
+			{
+			steering= -(steering)/(45);
+			}
+			//but the simulator responds well for half of this 
+			
+	
+		
+		
+		return steering;
+		
+	}
+	
+	
+}

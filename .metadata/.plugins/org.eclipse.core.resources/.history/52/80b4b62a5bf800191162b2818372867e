@@ -1,0 +1,147 @@
+package reversecontroller;
+
+import java.io.IOException;
+
+import java.util.concurrent.TimeUnit;
+
+
+import pathplanner.Astar;
+import pathplanner.Path;
+import pathplanner.pair;
+
+import java.util.Scanner; 
+  
+
+
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+
+public class reverse_controller {
+
+	
+	pair dest;
+	Orientationfinder O;
+	pathplanner.Path ret;
+	packetsender send;
+	byte[] data= ("0,0").getBytes();
+	pair source;
+	double steering;
+	Astar astar;
+	int index;
+	double orientation_angle;
+	int info;
+	int rearx;
+	int reary;
+	Actuator act;
+	int time=3;
+	double [] pos= new double[6];
+	
+	NSsteeringanglecalculator anglens;
+	SNsteeringanglecalculator anglesn;
+	EWsteeringanglecalculator angleew;
+	WEsteeringanglecalculator anglewe;
+	Intersectionsteer anglei;
+	
+	double[] x3={0.0730677798145869, 0.0724024528301805, 0.217362011079073, 0.360705194084073, 0.503338700229403,
+			0.643642794480879, 0.783042010833188, 0.919630425885222, 1.05512686466585, 1.18738756328586, 1.31833021640513,
+			1.44564508077169, 1.57138404482030, 1.69313747179619, 1.81303297611240, 1.92862384254741, 2.04206472512454,
+			2.15092430912377, 2.25734486352739, 2.35895090547462, 2.45783043808577, 2.55229962739161, 2.64419451199828,
+			2.73283978919241, 2.8193628071450, 2.90401314989188, 2.98702425240175, 3.06948086828484, 3.15120668619790,
+			3.23269369602975, 3.31423037623502, 3.39584664896225, 3.47811738292971, 3.56065837804453, 3.64425278776835,
+			3.72814810789118, 3.81327807396284, 3.89869092048207, 3.98537311709359, 4.07225138009525, 4.16032605260765,
+			4.24847444530297,4.33767919368012, 4.42682572905308, 4.51685015388447, 4.60665383572631, 4.69750673143723,
+			4.78943803502262, 4.88331017754021, 4.97789819133980, 5.07306777981419};
+	
+	double[] y3= {0.0533373173742189, 0.134734212598198, 0.216527110701589, 0.298111004777536, 0.380077296289707,
+			0.461516392859851, 0.543359819561444, 0.624522649990020, 0.706142886397371, 0.786972310451059,
+			0.868297931477921, 0.948736379649336, 1.02968576695396, 1.10965447544962, 1.19011768463778,
+			1.26950308510737, 1.34933474638746, 1.42798351504589, 1.50699949950881, 1.58471533586441,
+			1.66267951269040, 1.73967616451680, 1.81713271020126, 1.89460751404678, 1.97301945098098,
+			2.05267412709929, 2.13379464994870, 2.21733515968887, 2.30319989016051, 2.39183146898293,
+			2.48350243126565, 2.57822591268824, 2.67652084397217, 2.77798477051304,	2.88332731204706,
+			2.99174537655208, 3.10409187030449, 3.21929773507757, 3.33827292507337, 3.45974947557634,
+			3.58465813341893, 3.71160362266336, 3.84150754644433, 3.97291289709442, 4.10670330670056,
+			4.24134655161055, 4.37823152615348, 4.51724892166117, 4.65917603280980, 4.80239215252335, 4.94666268262626};
+			
+	
+	
+	public reverse_controller(int index, Path ret) throws IOException, InterruptedException 
+	
+	{ 	    
+		
+		//only 3 possible orientations for reversing
+		
+		//ew, we and sn
+		
+		//find the orientation of the trailer
+		
+		
+	
+
+	for (int i=0; i<index;i=i+1)
+	{
+			
+			if (ret.x[i+1]==null)
+			{
+				break;
+			}
+			
+			System.out.println("start"+ret.x[i].x+ret.x[i].y );
+			System.out.println("end"+ret.x[i+1].x+ret.x[i+1].y );	
+			dest=new pair(ret.x[i+1].x,ret.x[i+1].y );
+			source=new pair(ret.x[i].x,ret.x[i].y );
+			
+		
+		O=new Orientationfinder();
+		orientation_angle=O.Orientationfinder();
+		info=O.Orientationinfo();
+		
+		System.out.println(info);
+		
+	
+		if (info==3)
+		{
+			anglens=new NSsteeringanglecalculator();
+			steering=anglens.NSsteeringanglecalculator(dest,source,orientation_angle);
+		}
+		else if (info==4)
+		{
+			anglesn=new SNsteeringanglecalculator();
+			steering=anglesn.SNsteeringanglecalculator(dest,source);
+		}
+		else if (info==1)
+		{
+			angleew=new EWsteeringanglecalculator();
+			steering=angleew.EWsteeringanglecalculator(dest,source);
+		}
+		
+		else if (info==2)
+		{
+			anglewe=new WEsteeringanglecalculator();
+			steering=anglewe.WEsteeringanglecalculator(dest,source);
+		}
+		
+		else if (info==5)
+		{
+			anglei=new Intersectionsteer();
+			steering=anglei.Intersectionsteer(dest, source);
+		}
+	
+		steering=Math.round((steering) * 10) / 10.0;
+		
+		
+	    System.out.println("the steering angle with error that must be fixed is "+steering);
+		
+	 
+		
+		act= new Actuator(steering,time,2);
+	 
+		 
+		
+		TimeUnit.SECONDS.sleep(1);
+ 			
+	}
+	
+    }
+}

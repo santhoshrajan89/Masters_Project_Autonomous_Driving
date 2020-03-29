@@ -1,0 +1,33 @@
+package pathplanner;
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.*; 
+import java.util.*; 
+
+public class Astar {
+	
+	
+	//determine the grid sizes
+	
+	int x_size=16;
+	int y_size=12;
+	
+	int [][]GRID=new int[x_size][y_size];
+	
+	public void print()
+	{
+	
+	System.out.println("Welcome to my World!!");
+	}
+	
+	//instanitate the closed and open list
+	
+	
+	
+	
+	
+	
+
+}

@@ -1,0 +1,43 @@
+package launcher;
+
+
+
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+
+public class Activator implements BundleActivator {
+
+	
+	Starter start;
+	Scanner x= new Scanner(System.in );
+	private static BundleContext context;
+	
+	static BundleContext getContext() {
+		return context;
+	}
+
+	
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		//bundleContext.getServiceReference(position_parser.class.getName());
+		//bundleContext.getServiceReference(Astar.class.getName());
+		//System.out.println("Enter the choice of Docking Station");
+	   // int ds=x.nextInt();
+	    
+	    
+		start=new Starter(1);
+		
+	}
+
+	
+
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

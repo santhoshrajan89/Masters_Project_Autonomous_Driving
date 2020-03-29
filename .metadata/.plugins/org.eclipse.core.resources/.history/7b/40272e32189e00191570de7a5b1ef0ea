@@ -1,0 +1,13 @@
+package pathplanner;
+
+public class neighbours {
+	
+	list x;
+	
+	neighbours(list x)
+	{
+		this.x=x;
+	}
+	
+
+}

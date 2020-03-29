@@ -1,0 +1,31 @@
+package revt;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Runner {
+	position_parser parser;
+	packetsender send;
+	byte[] data;
+	
+	
+	public Runner() throws IOException, InterruptedException
+	{
+	Activator.context = bundleContext;
+	 data = ("0,-0.1").getBytes();
+    
+	  send= new packetsender(data);
+	 TimeUnit.SECONDS.sleep(4);
+	 data=("0,0").getBytes();
+	 send= new packetsender(data);
+	 
+	
+	
+	}
+	
+	
+	
+}

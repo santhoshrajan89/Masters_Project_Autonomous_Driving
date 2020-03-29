@@ -1,0 +1,82 @@
+package udp;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+	//public UDP_Send udp_send;
+	
+     
+	static BundleContext getContext() {
+		return context;
+	}
+
+	
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		
+		
+	    //udp_send=new UDP_Send();
+	     System.out.print("this is UDP");
+	 //	public  void exec()  throws UnknownHostException, SocketException, IOException  {
+	 		 // byte[] steering={(byte) 0.6667,(byte) 0.5};
+	 		 // double throttle=0.5;
+	 		  
+	 		  byte[]  data = ("-0.3,0.3").getBytes();
+	 		  
+	 		  
+	 		  //byte [] IP={94, (byte) 231,(byte) 255,(byte) 214};
+	 		  System.out.print("this is UDP");
+	 		  
+	 		  //InetAddress address = InetAddress.getByAddress(IP);
+	 		  
+	 		  InetAddress IPAddress= InetAddress.getByName("192.168.1.124");
+	 		  
+	 		  DatagramPacket packet = new DatagramPacket( data, data.length, IPAddress, 54320 );
+	 		  DatagramSocket datagram = new DatagramSocket() ;
+	 		  datagram.send(packet);
+	 		  System.out.println(InetAddress.getLocalHost().getHostAddress());
+	 		  datagram.close();
+	 		  
+	 		  
+
+	 		 int port=54321;
+	 		  
+	 		  byte[] reciever = new byte[65535];
+	 		  DatagramSocket ds= new DatagramSocket(port);
+	 		  
+	 		 DatagramPacket rec = new DatagramPacket(reciever, reciever.length);
+	 		 
+	 		 
+	 		 while (true) {
+	 			 ds.receive(rec);
+	 			 
+	 			 String message= new String(reciever, 0, rec.getLength());
+	 			 System.out.println(rec.getAddress().getHostName() + ": "+ message);
+
+	 		        // Reset the length of the packet before reusing it.
+	 		       // packet.setLength(reciever.length);
+	 		       ds.close();
+	 		 }
+	 		 
+	 		 }
+	 		 
+	 		  
+	 			
+	
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

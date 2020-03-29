@@ -1,0 +1,51 @@
+package pathplanner;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
+public class controlWE {
+
+	Path closed;
+	int index;
+	runner send;
+	String message;
+	String controlNS ()
+	{
+	return message;
+	}
+	controlWE (Path closed, int index) throws IOException, InterruptedException
+	{
+		this.closed=closed;
+		this.index=index;
+		
+		  
+		}
+			
+		  
+		
+		
+		
+	  TimeUnit.SECONDS.sleep(10);
+	  System.out.print("stop");
+	  byte[] data = ("0,0").getBytes();
+	  send= new runner(data);
+	  message=send.recieve();  
+	 
+		
+	    
+	    
+		  
+		 
+	}		 
+}
+	
+	
+
+

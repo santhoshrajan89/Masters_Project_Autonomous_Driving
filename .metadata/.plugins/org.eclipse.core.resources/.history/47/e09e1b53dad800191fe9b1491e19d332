@@ -1,0 +1,108 @@
+package launcher;
+
+
+
+import java.util.concurrent.TimeUnit;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+import pathcontroller.Control_Invoker;
+import pathplanner.Astar;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+import reverse.Revsteer;
+public class Activator implements BundleActivator {
+
+	private static BundleContext context;
+	public Astar astar;
+	pathplanner.Path ret;
+	int index;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	Control_Invoker invoke;
+	packetsender send;
+	Revsteer rev;
+	static BundleContext getContext() {
+		return context;
+	}
+
+	
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		//bundleContext.getServiceReference(position_parser.class.getName());
+		//bundleContext.getServiceReference(Astar.class.getName());
+		
+		
+		position_parser parser=new position_parser();
+		pos=parser.position_parser(data);
+		
+		System.out.println("the x1 and y1 coordinates are"+pos[4]+pos[5]);
+		System.out.println("the x2 and y2 coordinates are"+pos[0]+pos[1]);
+		System.out.println("the x3 and y3 coordinates are"+pos[2]+pos[3]);
+		astar=new Astar((int)pos[4],(int)pos[5],13,45);
+		
+		//astar=new Astar(pos[4],pos[5],17,pos[5]-10);
+				ret=astar.retval();
+				index=astar.indret();
+				
+				invoke=new Control_Invoker(ret,index);
+				
+				pos=parser.position_parser(data);
+				System.out.println("The coordinates sent to astar again");
+				System.out.println(pos[4]);
+				System.out.println(pos[5]);
+		    	  
+				TimeUnit.SECONDS.sleep(5);
+		 	astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]+10,(int)pos[5]+3);
+		    	  
+					ret=astar.retval();
+					index=astar.indret();
+					
+				 invoke=new Control_Invoker(ret,index);
+					
+					 TimeUnit.SECONDS.sleep(3);
+					pos=parser.position_parser(data);
+					
+				System.out.println("The coordinates sent to astar again");
+					System.out.println(pos[4]);
+					System.out.println(pos[5]);
+					//System.out.print("send to runner");
+					  // data = ("-0.7,0.2").getBytes();
+					  //send= new packetsender(data);
+					 //TimeUnit.SECONDS.sleep(8);
+					 // data = ("0,0").getBytes();
+					 // send= new packetsender(data);
+				
+				astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]+1,(int)pos[5]-15);
+			    	  
+			    	ret=astar.retval();
+						index=astar.indret();
+						invoke=new Control_Invoker(ret,index);
+						 pos=parser.position_parser(data);
+							System.out.println("now we are at");
+							System.out.println(pos[4]);
+							System.out.println(pos[5]);
+						astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]-2,(int)pos[5]-5);
+					    	  
+		//rev=new Revsteer();			    	
+
+		ret=astar.retval();
+		index=astar.indret();
+		
+		invoke=new Control_Invoker(ret,index);
+						// pos=parser.position_parser(data);
+							//System.out.println("now we are at");
+							//System.out.println(pos[4]);
+							//System.out.println(pos[5]);
+					
+	}
+
+	
+
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

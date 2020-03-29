@@ -1,0 +1,160 @@
+package pathcontroller;
+
+import java.io.IOException;
+
+import pathplanner.Path;
+import pathplanner.pair;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+import java.math.*;
+import java.util.concurrent.TimeUnit; 
+
+public class Control_Invoker {
+	int index;
+	int x2,y2,x3,y3;
+	int time=5;
+	position_parser activation;
+	double[] pos;
+	String message;
+	double steering;
+	Path ret;
+	packetsender send;
+	pair dest;
+	pair source;
+	
+	pair exp;
+	
+	pair actual;
+	 byte[] data = ("0,0").getBytes();
+	Actuator act;
+	NSsteeringanglecalculator anglens;
+	SNsteeringanglecalculator anglesn;
+	EWsteeringanglecalculator angleew;
+	WEsteeringanglecalculator anglewe;
+	Intersectionsteer anglei;
+	Orientationfinder O;
+	double orientation_angle;
+	int info;
+	Errorcorrection e;
+	
+	public Control_Invoker(Path ret, int index) throws IOException, InterruptedException{
+		this.ret=ret;
+		this.index=index;
+		
+		position_parser activation;
+		
+		
+	
+		for (int i=0; i<index;i=i+5)
+		{
+			System.out.println("the i value is"+i);
+			if (ret.x[i+5]==null)
+			{
+				break;
+			}
+			
+			System.out.println("start"+ret.x[i].x+ret.x[i].y );
+			System.out.println("end"+ret.x[i+5].x+ret.x[i+5].y );	
+			dest=new pair(ret.x[i+5].x,ret.x[i+5].y );
+			source=new pair(ret.x[i].x,ret.x[i].y );
+			
+			
+			//find the current orientation
+			
+			O=new Orientationfinder();
+			orientation_angle=O.Orientationfinder();
+			info=O.Orientationinfo();
+			
+			System.out.println(info);
+			
+			//call the steering angle computer
+			
+			if (info==3)
+			{
+				anglens=new NSsteeringanglecalculator();
+				steering=anglens.NSsteeringanglecalculator(dest,source);
+			}
+			if (info==4)
+			{
+				anglesn=new SNsteeringanglecalculator();
+				steering=anglesn.SNsteeringanglecalculator(dest,source);
+			}
+			if (info==1)
+			{
+				angleew=new EWsteeringanglecalculator();
+				steering=angleew.EWsteeringanglecalculator(dest,source);
+			}
+			
+			if (info==2)
+			{
+				anglewe=new WEsteeringanglecalculator();
+				steering=anglewe.WEsteeringanglecalculator(dest,source);
+			}
+			
+			if (info==5)
+			{
+				anglei=new Intersectionsteer();
+				steering=anglei.Intersectionsteer(dest, source);
+			}
+		
+			steering=Math.round(steering * 10) / 10.0;
+			
+		    System.out.println("the rounded steering angle that must be fixed is "+steering);
+			
+		 
+			
+			act= new Actuator(steering,time);
+		
+			 TimeUnit.SECONDS.sleep(3);
+			 
+			 position_parser parser=new position_parser();
+			 pos=parser.position_parser(data);
+				
+			 if (java.lang.Math.abs(pos[4]-ret.x[i+5].x)>1||java.lang.Math.abs(pos[5]-ret.x[i+5].y)>1)
+	 			{
+	 				System.out.println("Emergency-->STOPPING");
+	 				data=("0,0").getBytes();
+	 				 send= new packetsender(data);
+	 				exp=new pair(ret.x[i+5].x, ret.x[i+5].y);
+	 				actual=new pair((int)pos[4],(int) pos[5]);
+		 			e=new Errorcorrection(dest, actual);
+	 		    }
+	 			
+		 			
+		 		
+		 			 
+		 			 
+			    activation=new position_parser();
+	 			pos=activation.position_parser(data);
+	 			//System.out.println("The positions of x1 and y1 are");
+	 			
+	 			
+     	        System.out.println("but we actually ended at"+pos[4]+pos[5]);	
+	            System.out.println("the difference is");
+	 			System.out.println(pos[4]-ret.x[i+5].x);
+	 			System.out.println(pos[5]-ret.x[i+5].y);
+	 			
+	 			if (java.lang.Math.abs(pos[4]-ret.x[index-1].x)<=1&&java.lang.Math.abs(pos[5]-ret.x[index-1].y)<=1)
+	 			{
+	 				System.out.println("motion already achieved");
+	 				break;
+	 			}
+	 		
+	 		}
+
+		
+		//now check dest vs achieved point..here dest is the last point in the closed list
+		
+		
+ 	//	dest.x=ret.x[index-1].x;
+ 		// dest.y=ret.x[index-1].y;
+		
+		// if (java.lang.Math.abs(pos[4]-dest.x)>2||java.lang.Math.abs(pos[5]-dest.y)>2)
+			{
+				
+			//	exp=new pair(dest.x, dest.y);
+				//actual=new pair((int)pos[4],(int) pos[5]);
+	 		//	e=new Errorcorrection(dest, actual);
+		    }
+}
+}

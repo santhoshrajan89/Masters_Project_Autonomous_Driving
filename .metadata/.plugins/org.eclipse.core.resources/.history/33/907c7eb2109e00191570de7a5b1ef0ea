@@ -1,0 +1,79 @@
+package pathplanner;
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.*; 
+import java.util.*; 
+import java.lang.Math; 
+
+
+
+public class Astar 
+{
+	int x_size=16;
+	int y_size=12;
+	
+	pair source=new pair(11,11);
+	pair dest=new pair(12,5);
+	
+	
+	int [][]GRID=new int[x_size][y_size];
+	double [][]G_cost=new double[x_size][y_size];
+	double [][]H_cost=new double[x_size][y_size];
+	double [][]F_cost=new double[x_size][y_size];
+	
+	public void open()
+	{
+	   for (int i=0;i<x_size;i++)
+	    {
+		   for (int j=0;j<y_size;j++)
+		  {
+			GRID[i][j]=1;
+		  }
+	    }
+	}
+	
+	public void closed()
+	{
+	   for (int i=5;i<=12;i++)
+		  {
+			GRID[i][6]=0;
+		  }
+	}
+	
+	
+	//instanitate the closed and open list
+	
+	ArrayList <Double> closedList=new ArrayList<Double>(5);
+	
+	//compute costs
+	
+	 public void computecost()
+	 {
+	  for (int i=0; i<x_size;i++)
+	   {
+		for (int j=0; j<y_size;j++)
+		  {
+			if (GRID[i][j]==0)
+			  { G_cost[i][j]=10000;
+			     H_cost[i][j]=10000;}
+			else {
+				G_cost[i][j]=0;
+				 H_cost[i][j]= Math.sqrt(Math.pow((i-dest.x),2)+Math.pow((j-dest.y),2));
+				 }
+			}
+	     }
+	  
+	        for (int i=0; i<x_size;i++)
+	          {
+		       for (int j=0; j<y_size;j++)
+		        {
+		        F_cost[i][j]=G_cost[i][j]+H_cost[i][j];
+		        }
+	           }
+	         System.out.print("cost_computed");
+	       
+	     }
+	 list neighbour=new list (source.x,source.y,0,H_cost[source.x][source.y],F_cost[source.x][source.y] );
+}

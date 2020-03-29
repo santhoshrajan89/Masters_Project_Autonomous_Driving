@@ -1,0 +1,130 @@
+package launcher;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathcontroller.Control_Invoker;
+import pathplanner.Astar;
+import reversecontroller.reverse_controller;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Waypoint_determination {
+	public Astar astar;
+	pathplanner.Path ret;
+	int index;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	Control_Invoker invoke;
+	packetsender send;
+	int ds;
+	FirstWP one;
+	SecondWP two;
+	ThirdWP three;
+	
+     rev_wp rc;
+	
+    position_parser parser;
+	
+   
+ 
+	 Waypoint_determination(int dock_choice) throws IOException, InterruptedException{
+		 
+	    	  
+	
+	if (dock_choice==1)
+	{		
+		
+		//long S=System.currentTimeMillis();
+	one=new FirstWP();
+		//TimeUnit.SECONDS.sleep(3);
+		two=new SecondWP();	
+		 // long T=System.currentTimeMillis()-S;
+		  
+		//  System.out.println("The time elapsed is"+T);			    
+	//SECONDS.sleep(2); 
+     three= new ThirdWP(25);
+		// imeUnit.SECONDS.sleep(3); 
+					//System.out.println("starting reverse");
+	    
+   //four=new FourthWP(20);
+		//rc=new rev_wp();
+		    
+	}
+	
+	if (dock_choice==2)
+	{				
+		 one=new FirstWP();
+			//TimeUnit.SECONDS.sleep(3);
+				
+					    
+		   two=new SecondWP();
+				
+					////
+		   // TimeUnit.SECONDS.sleep(3); 
+		   three= new ThirdWP(30);
+		 //TimeUnit.SECONDS.sleep(3); 
+					//System.out.println("starting reverse");
+		   
+		  
+		  // rc=new rev_wp();
+	}
+	
+	if (dock_choice==3)
+	{				
+		  one=new FirstWP();
+			//TimeUnit.SECONDS.sleep(3);
+				
+					    
+		   two=new SecondWP();
+				
+					////
+		   // TimeUnit.SECONDS.sleep(3); 
+		    three= new ThirdWP(35);
+		 //TimeUnit.SECONDS.sleep(3); 
+					//System.out.println("starting reverse");
+		   		    //rc=new rev_wp();
+	
+	}
+	
+	if (dock_choice==4)
+	{				
+		  //one=new FirstWP();
+			//TimeUnit.SECONDS.sleep(3);
+				
+					    
+		   //two=new SecondWP();
+				
+					////
+		   // TimeUnit.SECONDS.sleep(3); 
+		    //three= new ThirdWP(40);
+		 //TimeUnit.SECONDS.sleep(3); 
+					//System.out.println("starting reverse");
+		    
+		    rc=new rev_wp();
+	
+	}
+	
+	if (dock_choice==5)
+	{				
+		  one=new FirstWP();
+			//TimeUnit.SECONDS.sleep(3);
+				
+					    
+		   two=new SecondWP();
+				
+					////
+		   // TimeUnit.SECONDS.sleep(3); 
+		    three= new ThirdWP(45);
+		 //TimeUnit.SECONDS.sleep(3); 
+					//System.out.println("starting reverse");
+		  
+		   // rc=new rev_wp();
+	
+	}
+
+	
+						
+	 }
+	
+}

@@ -1,0 +1,43 @@
+package pathcontroller;
+
+import pathplanner.pair;
+
+public class EWsteeringanglecalculator {
+
+	
+	double steering;
+	
+	double EWsteeringanglecalculator(pair dest, pair source, double orientation_angle)
+	{
+		
+		
+		
+		
+		System.out.println("the orientation angle given here is"+orientation_angle);
+		//also give the angle between source and destination given by the formula
+		//tan inv y2-y1/x2-x1
+		//the angle is with respect to y axis as the orietnation of the vehicle is ns
+		
+		steering=Math.toDegrees(Math.atan((double)(dest.x-source.x)/(double)(dest.y-source.y)));
+		
+		//System.out.println(steering);
+		//steering=Math.atan((double)dest.x-source.x/dest.y-source.y);
+		System.out.println("the steering angle in degrees is"+steering);
+		//System.out.println("the atan value is"+Math.atan(0.4));
+		
+		//converting the steering angle to the simulator requirement
+		
+		// we arrive at + steering/45 as it is right turn 
+		
+		//the orientation of the truck semi system is already at 45 deg , so we add it to the calculation
+		steering= (steering+orientation_angle)/45;
+		//but the simulator responds well for half of this 
+		
+		
+		
+		return steering;
+		
+	}
+	
+	
+}

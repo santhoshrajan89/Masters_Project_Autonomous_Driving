@@ -1,0 +1,137 @@
+package pathplanner;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
+public class controlNS {
+
+	Path closed;
+	int index;
+	runner send;
+	String message;
+	String controlNS ()
+	{
+	return message;
+	}
+	controlNS (Path closed, int index) throws IOException, InterruptedException
+	{
+		this.closed=closed;
+		this.index=index;
+		for (int c=0; c<=index;c=c+5)
+		{
+			
+			System.out.print(c);
+		  if (closed.x[c+1].x>closed.x[c].x)
+		  {
+			  if (closed.x[c+1].y>closed.x[c].y)
+			  {
+				  
+				  System.out.print("there you go right->!");
+				  byte[] data = ("0.5,0.1").getBytes();
+				  send= new runner(data);
+				  TimeUnit.SECONDS.sleep(3);
+					//message=send.mess_return();  
+			  }
+		  }
+		  
+		 
+		  if (closed.x[c+1].x>closed.x[c].x)
+		  {
+			  if (closed.x[c+1].y<closed.x[c].y)
+			  {
+				  
+				  System.out.print("there you go left!");
+				  byte[] data = ("-0.5,0.1").getBytes();
+				  send= new runner(data);
+				//	message=send.mess_return();  
+			  }
+		  }
+		 
+		 
+
+		  if (closed.x[c+1].x>closed.x[c].x)
+		  {
+		
+			  if (closed.x[c+1].y==closed.x[c].y)
+			  {
+				 
+				  System.out.print("head straight!");
+				  byte[] data = ("0.1,0.1").getBytes();
+				  send= new runner(data);
+				  TimeUnit.SECONDS.sleep(3);
+					//message=send.mess_return();  
+			  }
+		  }
+		  
+		  if (closed.x[c+1].x<closed.x[c].x)
+		  {
+		
+			  if (closed.x[c+1].y==closed.x[c].y)
+			  {
+				 
+				  System.out.print("reverse!");
+				  byte[] data = ("0.1,-0.1").getBytes();
+				  send= new runner(data);
+				  TimeUnit.SECONDS.sleep(3);
+					//message=send.mess_return();  
+			  }
+		  }
+		  
+		  
+		  if (closed.x[c+1].x<closed.x[c].x)
+		  {
+			  if (closed.x[c+1].y>closed.x[c].y)
+			  {
+				  
+				  System.out.print("there you go reverse right->!");
+				  byte[] data = ("-0.5,-0.1").getBytes();
+				  send= new runner(data);
+				  TimeUnit.SECONDS.sleep(3);
+					//message=send.mess_return();  
+			  }
+		  }
+		  
+		  if (closed.x[c+1].x<closed.x[c].x)
+		  {
+			  if (closed.x[c+1].y>closed.x[c].y)
+			  {
+				  
+				  System.out.print("there you go right->!");
+				  byte[] data = ("0.5,-0.1").getBytes();
+				  send= new runner(data);
+				  TimeUnit.SECONDS.sleep(3);
+					//message=send.mess_return();  
+			  }
+		  }
+		  
+		  
+		}
+			
+		  
+		
+		
+		
+	  TimeUnit.SECONDS.sleep(10);
+	  System.out.print("stop");
+	  byte[] data = ("0,0").getBytes();
+	  send= new runner(data);
+	  message=send.recieve();  
+	 
+		
+	    
+	    
+		  
+		 
+	}		 
+}
+	
+	
+
+

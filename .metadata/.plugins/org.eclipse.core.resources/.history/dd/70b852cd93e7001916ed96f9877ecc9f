@@ -1,0 +1,65 @@
+package launcher;
+
+
+
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+import reversecontroller.reverse_controller;
+import unity_communication.Collision;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Activator implements BundleActivator {
+
+	int ds;
+	FirstWP one;
+	SecondWP two;
+	ThirdWP three;
+	Collision c;
+	
+	Waypoint_determination wd;
+	packetsender send;
+	position_parser activation;
+	reverse_controller rc;
+	Scanner x= new Scanner(System.in );
+	private static BundleContext context;
+	
+	static BundleContext getContext() {
+		return context;
+	}
+
+	
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+	
+	  
+	 // rc=new reverse_controller();
+	  // TimeUnit.SECONDS.sleep(3);
+		
+	 //now exercise the choice
+	 one=new FirstWP();
+		TimeUnit.SECONDS.sleep(3);
+		
+			    
+        two=new SecondWP();
+			
+			// c=new Collision();
+			 
+			 TimeUnit.SECONDS.sleep(3); 
+			three= new ThirdWP();
+			TimeUnit.SECONDS.sleep(3); 
+	   rc=new reverse_controller();
+	}
+
+	
+
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}

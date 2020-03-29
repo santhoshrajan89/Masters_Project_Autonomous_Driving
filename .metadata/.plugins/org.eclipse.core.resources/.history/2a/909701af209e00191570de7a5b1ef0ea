@@ -1,0 +1,6 @@
+package pathplanner;
+
+public class Path {
+
+	list[] x=new list[];
+}

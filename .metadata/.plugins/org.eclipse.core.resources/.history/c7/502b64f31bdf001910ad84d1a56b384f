@@ -1,0 +1,106 @@
+package launcher;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathcontroller.Control_Invoker;
+import pathplanner.Astar;
+import reverse.Revsteer;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class Starter {
+	public Astar astar;
+	pathplanner.Path ret;
+	int index;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	Control_Invoker invoke;
+	packetsender send;
+	Revsteer rev;
+	Starter(int docking_choice) throws IOException, InterruptedException
+	{
+		
+	
+	position_parser parser=new position_parser();
+	pos=parser.position_parser(data);
+	
+	System.out.println("the x1 and y1 coordinates are"+pos[4]+pos[5]);
+	System.out.println("the x2 and y2 coordinates are"+pos[0]+pos[1]);
+	System.out.println("the x3 and y3 coordinates are"+pos[2]+pos[3]);
+	
+	//first 2 wp is common to all choices
+	astar=new Astar((int)pos[4],(int)pos[5],13,45);
+	
+	//astar=new Astar(pos[4],pos[5],17,pos[5]-10);
+			ret=astar.retval();
+			index=astar.indret();
+			
+			invoke=new Control_Invoker(ret,index);
+			
+			pos=parser.position_parser(data);
+			System.out.println("The coordinates sent to astar again");
+			System.out.println(pos[4]);
+			System.out.println(pos[5]);
+	    	  
+			TimeUnit.SECONDS.sleep(5);
+	
+	if (docking_choice==1)
+	{
+		
+		 	astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]+13,(int)pos[5]+2);
+		    	  
+					ret=astar.retval();
+					index=astar.indret();
+					
+				 invoke=new Control_Invoker(ret,index);
+					
+					 TimeUnit.SECONDS.sleep(3);
+					pos=parser.position_parser(data);
+					
+				System.out.println("The coordinates sent to astar again");
+					
+			astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4],(int)pos[5]-10);
+			    	  
+			    ret=astar.retval();
+						index=astar.indret();
+						invoke=new Control_Invoker(ret,index);
+						 pos=parser.position_parser(data);
+							System.out.println("now we are at");
+							System.out.println(pos[4]);
+							System.out.println(pos[5]);
+	}
+
+				//	astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]-5,(int)pos[5]+2);
+				    	  
+
+	//ret=astar.retval();
+	//index=astar.indret();
+	
+	//invoke=new Control_Invoker(ret,index);
+					
+					//rev=new Revsteer();			    	
+	//astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]-5,(int)pos[5]);
+	
+	//ret=astar.retval();
+	//index=astar.indret();
+	
+	//invoke=new Control_Invoker(ret,index);
+	
+					// pos=parser.position_parser(data);
+						//System.out.println("now we are at");
+						//System.out.println(pos[4]);
+						//System.out.println(pos[5]);
+				
+						
+						//data=("0.1,0.2").getBytes();
+						
+						//send=new packetsender(data);
+						//TimeUnit.SECONDS.sleep(4);		
+						 //data=("0,0").getBytes();
+						//	send=new packetsender(data);
+	
+	
+	//motion kinematically infeasible 
+	}
+}

@@ -1,0 +1,236 @@
+package pathplanner;
+
+public class Astar implements Astar_int
+{
+	int x_size=50;
+	int y_size=50;
+	int index=0;  
+	int source1, source2;
+	int dest1,dest2;
+	
+	//System.out.print("Enter the source coordinates");
+	
+	pair source=new pair(12,15);
+	pair dest=new pair(18,47);
+	int n=10;
+	double min;
+	int neighbour_counter=0;
+	int [][]GRID=new int[x_size][y_size];
+	double [][]G_cost=new double[x_size][y_size];
+	double [][]H_cost=new double[x_size][y_size];
+	double [][]F_cost=new double[x_size][y_size];
+	 neighbours neighbour=new neighbours();
+	 Path closed=new Path();
+	public void open()
+	{
+	   for (int i=0;i<x_size;i++)
+	    {
+		   for (int j=0;j<y_size;j++)
+		  {
+			GRID[i][j]=1;
+		  }
+	    }
+	}
+	
+	public void closed()
+	{
+	   for (int i=13;i<=35;i++)
+		  {
+			GRID[20][i]=0;
+		  }
+	   
+	   for (int i=0;i<=2;i++)
+		  {
+	   GRID[20][i]=0;
+		  }
+	   
+	   
+	   for (int i=45;i<50;i++)
+		  {
+	  GRID[20][i]=0;
+		  }
+	  }
+	
+	
+	//print the gird
+	public   void printgrid()
+	{
+	for (int i=0;i<x_size;i++)
+    {
+	   for (int j=0;j<y_size;j++)
+	  {
+		   System.out.print(GRID[i][j]);
+	  }
+	   System.out.print("\n");
+    }
+	
+    }
+	
+	//compute costs
+	
+	 public void computecost()
+	 {
+	  for (int i=0; i<x_size;i++)
+	   {
+		for (int j=0; j<y_size;j++)
+		  {
+			if (GRID[i][j]==0)
+			  { G_cost[i][j]=10000;}
+			    // H_cost[i][j]=10000;}
+			else {
+				G_cost[i][j]=0;
+				 H_cost[i][j]= Math.sqrt(Math.pow((i-dest.x),2)+Math.pow((j-dest.y),2));
+				 }
+			}
+	     }
+	  
+	        for (int i=0; i<x_size;i++)
+	          {
+		       for (int j=0; j<y_size;j++)
+		        {
+		        F_cost[i][j]=G_cost[i][j]+H_cost[i][j];
+		        }
+	           }
+	      //assign lists
+	        list x=new list (source.x,source.y,0,H_cost[source.x][source.y],F_cost[source.x][source.y]);
+	        list y=new list(0,0,0,0,0);
+	        
+	       
+	   	     
+	          neighbour.x[0]=x;
+	          
+	          for (int i=1;i<8;i++ )
+	          {
+	        	  neighbour.x[i]=y;
+	          }
+	   	 
+	        // System.out.print("cost_computed");
+	         System.out.print(neighbour.x[0].f);
+	            
+	     }
+	
+	  
+	 public void loop()
+	 {
+		  
+	      int l=0;
+	      list NULL=new list (0,0,0,0,0);
+	      list taken=NULL;
+	      
+	      taken=new list (source.x,source.y,0,H_cost[source.x][source.y],F_cost[source.x][source.y]);
+	    boolean path_not_found=true;
+	    
+	while (path_not_found)
+	  {
+		 //System.out.print("dummy");
+		
+		    
+		   if (l>0)
+		    {
+			   min=neighbour.x[0].f;
+			   System.out.print("The neighbour costs are\n");
+		     for (int d=1; d<neighbour_counter;d++)
+		      {
+		    	 
+		    	
+		    	// System.out.print(neighbour.x[d].f);
+		    	// System.out.print("\n");
+		    	 
+		      }
+		     for (int d=1; d<neighbour_counter;d++)
+		      {
+			    if (neighbour.x[d].f<min)
+			     {
+			      min=neighbour.x[d].f;
+		           taken=neighbour.x[d];
+		           
+		        // System.out.print("The neighbour cost chosen is\n");
+			     // System.out.print(neighbour.x[d].f);
+			       //System.out.print(neighbour.x[d].y);
+			     }
+		      }
+		    }
+		 
+		 
+		// System.out.print("this is the minimum");
+		 closed.x[index]=taken;
+		 
+		System.out.print(closed.x[index].x);
+		   System.out.print(closed.x[index].y);
+		   index=index+1;
+	     if (taken.x==dest.x&& taken.y==dest.y)
+	     {
+	    	 System.out.print("path_found");
+	    	 path_not_found=false;
+	    	// System.exit(0); 
+	     }
+	     //flush the neighbour list everytime
+	     neighbour_counter=0;
+	     for (int s=0;s<8;s++)
+	     {
+	    	 neighbour.x[s]=NULL;
+	     }
+	     
+	    down:
+	     for(int i = taken.x-1;i<=taken.x+1;i++)
+	     {
+	    	 for(int j = taken.y-1;j<=taken.y+1;j++)
+
+	    	  {
+	    		 if (i==taken.x&&j==taken.y)
+	    		 {
+	               
+	    			 continue;
+	    		}
+	    		 
+	    		 //if (i<12||i>12||j<16||j>16)
+	    		 {
+	    		   // continue;
+	    		 }
+	    		 System.out.print("\n");
+	    		// System.out.print(i);
+	    		// System.out.print(j);
+	    		 
+	    		 //if it passes all the above test, add it to the open list
+	    		 G_cost[i][j]=G_cost[i][j]+Math.sqrt(Math.pow((i-taken.x),2)+Math.pow((j-taken.y),2));
+	             //System.out.print("G_cost is \n");
+	             //System.out.print(G_cost[i][j]);
+	             
+	             F_cost[i][j]=G_cost[i][j]+H_cost[i][j];
+	    		 
+	    		 Path templist=new Path();
+	             list temp=new list(i,j,G_cost[i][j],H_cost[i][j],F_cost[i][j]);
+	             
+	              templist.x[0]=temp;
+	             
+	            for (int k=1;k<index;k++)
+	             {
+	               if (closed.x[k]==templist.x[0])
+	                 break down;
+	                 
+	             }
+	             
+	                     
+	             neighbour.x[neighbour_counter]=temp;
+	             neighbour_counter=neighbour_counter+1;
+	            
+	            	 
+	            	 
+	             //System.out.print("the neighbour count is\n");
+	             //System.out.print(neighbour_counter);
+	    	   }
+	      }
+
+     l++;
+	    
+	 }//while(1) loop ends here
+	 
+	 
+	 }
+	
+	
+	 
+
+	 
+	
+}

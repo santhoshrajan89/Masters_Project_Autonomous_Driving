@@ -1,0 +1,43 @@
+package launcher;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathcontroller.Control_Invoker;
+import pathplanner.Astar;
+
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class SecondWP {
+	public Astar astar;
+	pathplanner.Path ret;
+	int index;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	Control_Invoker invoke;
+	packetsender send;
+
+	int preprex;
+	
+	SecondWP() throws IOException, InterruptedException
+	{
+		
+		position_parser parser=new position_parser();
+		pos=parser.position_parser(data);
+		astar=new Astar((int)pos[4], (int)pos[5], (int)(pos[4]+25.0),(int)(pos[5]+5.0));
+		ret=astar.retval();
+	    index=astar.indret();
+	    invoke=new Control_Invoker(ret,index);   
+		TimeUnit.SECONDS.sleep(4);
+				
+		pos=parser.position_parser(data);
+		System.out.println("NOW WE ARE AT");
+		System.out.println(pos[4]);
+		System.out.println(pos[5]);
+	
+	  
+
+			 
+	}
+}

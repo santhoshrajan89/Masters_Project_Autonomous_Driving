@@ -1,0 +1,98 @@
+package launcher;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import pathcontroller.Control_Invoker;
+import pathplanner.Astar;
+import reverse.Revsteer;
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+public class FirstwoWPStarter {
+	public Astar astar;
+	pathplanner.Path ret;
+	int index;
+	double[] pos= new double[6];
+	byte[] data= ("0,0").getBytes();
+	Control_Invoker invoke;
+	packetsender send;
+	Revsteer rev;
+	int preprex;
+	
+	FirstwoWPStarter() throws IOException, InterruptedException
+	{
+		
+		position_parser parser=new position_parser();
+		pos=parser.position_parser(data);
+		
+		System.out.println("the x1 and y1 coordinates are"+pos[4]+pos[5]);
+		System.out.println("the x2 and y2 coordinates are"+pos[0]+pos[1]);
+		System.out.println("the x3 and y3 coordinates are"+pos[2]+pos[3]);
+		
+		//first 2 wp is common to all choices
+		
+		//choice of x-axis can never be greater than 14
+		//to avoid collision with the wall
+		
+		//20,21,22,23 prohibited
+		astar=new Astar((int)pos[4],(int)pos[5],13,48);
+		
+		
+				ret=astar.retval();
+				index=astar.indret();
+				invoke=new Control_Invoker(ret,index);
+			
+			TimeUnit.SECONDS.sleep(5);
+				
+			
+			pos=parser.position_parser(data);
+			System.out.println("The coordinates sent to astar again");
+			System.out.println(pos[4]);
+			System.out.println(pos[5]);
+	    	  
+  //   System.out.println("The destination to be set is"+(int)(pos[4]+15.0)+(int)(pos[5]-25.0));
+		astar=new Astar((int)pos[4], (int)pos[5], (int)(pos[4]+20.0),(int)(pos[5]-25.0));
+		 ret=astar.retval();
+				index=astar.indret();
+				invoke=new Control_Invoker(ret,index);   
+				
+				
+		//	TimeUnit.SECONDS.sleep(4);
+				
+			//pos=parser.position_parser(data);
+			//	System.out.println("The coordinates sent to astar again");
+				//System.out.println(pos[4]);
+				//System.out.println(pos[5]);
+			   // astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]+3,(int)pos[5]-25);
+				//ret=astar.retval();
+			   // index=astar.indret();
+			    //invoke=new Control_Invoker(ret,index);
+								
+							
+		   	   //pos=parser.position_parser(data);
+			   //System.out.println("now we are at");
+			   //System.out.println(pos[4]);
+			  //System.out.println(pos[5]);
+							
+				//TimeUnit.SECONDS.sleep(4);
+				//astar=new Astar((int)pos[4], (int)pos[5], (int)pos[4]-15,(int)pos[5]); 
+				//ret=astar.retval();
+			   // index=astar.indret();
+			  // invoke=new Control_Invoker(ret,index);
+			            
+			   //  pos=parser.position_parser(data);
+				// System.out.println("now we are at");
+				// System.out.println(pos[4]);
+			   //  System.out.println(pos[5]);
+			//  Reverse_actuator
+			  
+			//  data = ("0,-0.1").getBytes();
+			    
+			  //send= new packetsender(data);
+			 //TimeUnit.SECONDS.sleep(4);
+			 //data=("0,0").getBytes();
+			 //send= new packetsender(data);
+			 
+	}
+}

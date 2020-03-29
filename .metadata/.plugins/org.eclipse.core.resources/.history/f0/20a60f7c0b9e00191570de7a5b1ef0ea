@@ -1,0 +1,6 @@
+package pathplanner;
+
+public class pair<T1, T2> {
+private int T1;
+private int T2;
+}

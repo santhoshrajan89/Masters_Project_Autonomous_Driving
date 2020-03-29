@@ -1,0 +1,86 @@
+package launcher;
+
+
+
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+import unity_communication.packetsender;
+import unity_communication.position_parser;
+
+import java.io.*;
+
+
+public class Activator implements BundleActivator {
+
+	int ds;
+	FirstWP one;
+	SecondWP two;
+	ThirdWP three;
+	//FourthWP four;
+	Waypoint_determination wd;
+	packetsender send;
+	position_parser activation;
+	Scanner x= new Scanner(System.in );
+	private static BundleContext context;
+	
+	static BundleContext getContext() {
+		return context;
+	}
+
+	
+	public void start(BundleContext bundleContext) throws Exception {
+		Activator.context = bundleContext;
+		//bundleContext.getServiceReference(position_parser.class.getName());
+		//bundleContext.getServiceReference(Astar.class.getName());
+		//System.out.println("Enter the choice of Docking Station");
+	  //  ds=readInt("choice:");
+	    
+		//make the movement for first 2 waypoints 
+	  //  long t1=System.currentTimeMillis();
+	one=new FirstWP();
+	   // long t2=System.currentTimeMillis();
+	  //  long elapsed=t2-t1;
+	    
+	  two=new SecondWP();
+	    
+	  three= new ThirdWP();
+	   
+	  TimeUnit.SECONDS.sleep(4);
+		 
+		  byte[] data = ("-0.2,-0.3").getBytes();
+		     
+		  send= new packetsender(data);
+		  TimeUnit.SECONDS.sleep(3);
+		 
+		  data = ("-0.3,-0.3").getBytes();
+		     
+		  send= new packetsender(data);
+		  TimeUnit.SECONDS.sleep(3);
+		 
+		
+		 data=("0,0").getBytes();
+		  send= new packetsender(data);
+	  //System.out.println(" the time elapsed for making first two waypoint is"+elapsed);
+    //wait until that time to call the third/fourth waypoints
+	  
+	  
+	  // TimeUnit.SECONDS.sleep(3);
+		
+	 //now exercise the choice
+	 
+	
+	 
+	}
+
+	
+
+
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
+
+}
